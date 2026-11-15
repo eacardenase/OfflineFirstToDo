@@ -13,13 +13,13 @@ struct PlayerFormView: View {
         case score
     }
 
-    @Binding var form: PlayerForm
+    @Bindable var viewModel: PlayerViewModel
     @FocusState private var focusedElement: FocusElement?
 
     var body: some View {
         Group {
             LabeledContent {
-                TextField(text: $form.name) { EmptyView() }
+                TextField(text: $viewModel.name) { EmptyView() }
                     .textInputAutocapitalization(.words)
                     .autocorrectionDisabled()
                     .submitLabel(.next)
@@ -33,10 +33,12 @@ struct PlayerFormView: View {
             }
 
             LabeledContent {
-                TextField(value: $form.score, format: .number) { EmptyView() }
-                    .keyboardType(.numberPad)
-                    .focused($focusedElement, equals: .score)
-                    .labelsHidden()
+                TextField(value: $viewModel.score, format: .number) {
+                    EmptyView()
+                }
+                .keyboardType(.numberPad)
+                .focused($focusedElement, equals: .score)
+                .labelsHidden()
             } label: {
                 Text("Score").foregroundStyle(.secondary)
             }
@@ -49,12 +51,12 @@ struct PlayerFormView: View {
 
 #Preview("Prefilled") {
     Form {
-        PlayerFormView(form: .constant(PlayerForm(name: "John", score: 100)))
+        PlayerFormView(viewModel: .init(name: "Edwin", score: 100))
     }
 }
 
 #Preview("Empty") {
     Form {
-        PlayerFormView(form: .constant(PlayerForm(name: "")))
+        PlayerFormView(viewModel: .init(name: ""))
     }
 }

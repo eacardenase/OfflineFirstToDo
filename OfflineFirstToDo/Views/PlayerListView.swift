@@ -13,10 +13,15 @@ struct PlayerListView: View {
     var body: some View {
         List {
             ForEach(model.players, id: \.id) { player in
+                let playerViewModel = PlayerViewModel(
+                    name: player.name,
+                    score: player.score
+                )
+
                 NavigationLink {
-                    PlayerEditView(player: player)
+                    PlayerEditView(viewModel: playerViewModel)
                 } label: {
-                    PlayerRowView(player: player)
+                    PlayerRowView(viewModel: playerViewModel)
                 }
             }
             .onDelete { offsets in

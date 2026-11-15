@@ -10,12 +10,12 @@ import SwiftUI
 struct PlayerCreationSheet: View {
     @Environment(\.appDatabase) var appDatabase
     @Environment(\.dismiss) var dismiss
-    @State var form = PlayerForm(name: "")
+    @State var viewModel = PlayerViewModel(name: "")
 
     var body: some View {
         NavigationStack {
             Form {
-                PlayerFormView(form: $form)
+                PlayerFormView(viewModel: viewModel)
             }
             .navigationTitle("New Player")
             .toolbar {
@@ -35,7 +35,7 @@ struct PlayerCreationSheet: View {
     }
 
     private func save() {
-        var player = Player(name: form.name, score: form.score ?? 0)
+        var player = Player(name: viewModel.name, score: viewModel.score ?? 0)
 
         try? appDatabase.savePlayer(&player)
 

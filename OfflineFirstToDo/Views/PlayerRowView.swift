@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct PlayerRowView: View {
-    let player: Player
+    let viewModel: PlayerViewModel
 
     var body: some View {
         HStack {
             Group {
-                if player.name.isEmpty {
+                if viewModel.name.isEmpty {
                     Text("Anonymous").italic()
                 } else {
-                    Text(player.name)
+                    Text(viewModel.name)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            Text("\(player.score) points")
+            Text("\(viewModel.score) points")
                 .monospacedDigit()
                 .foregroundStyle(.secondary)
         }
@@ -29,5 +29,5 @@ struct PlayerRowView: View {
 }
 
 #Preview {
-    PlayerRowView(player: .makeRandom())
+    PlayerRowView(viewModel: .init(name: "Edwin", score: 100))
 }

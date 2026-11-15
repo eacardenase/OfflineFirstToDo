@@ -8,37 +8,35 @@
 import SwiftUI
 
 struct PlayerEditView: View {
-    @Environment(\.isPresented) var isPresented
     @Environment(\.appDatabase) var appDatabase
-    @State var form: PlayerForm
-
-    init(player: Player) {
-        self._form = State(
-            initialValue: PlayerForm(name: player.name, score: player.score)
-        )
-    }
+    @Environment(\.dismiss) var dismiss
+    @Bindable var viewModel: PlayerViewModel
 
     var body: some View {
         Form {
-            PlayerFormView(form: $form)
+            PlayerFormView(viewModel: viewModel)
         }
-        .navigationTitle(form.name)
-        .onChange(of: isPresented) {
-            if !isPresented {
-                save()
+        .navigationTitle(viewModel.name)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(role: .confirm) {
+                    save()
+                }
             }
         }
     }
 
     private func save() {
-        var player = Player(name: form.name, score: form.score ?? 0)
+        var player = Player(name: viewModel.name, score: viewModel.score ?? 0)
 
         try? appDatabase.savePlayer(&player)
+
+        dismiss()
     }
 }
 
 #Preview {
     NavigationStack {
-        PlayerEditView(player: .makeRandom())
+        PlayerEditView(viewModel: .init(name: "Edwin", score: 100))
     }
 }
