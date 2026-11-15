@@ -79,28 +79,6 @@ extension AppDatabase {
         }
     }
 
-    func refreshPlayers() async throws {
-        try await dbWriter.write { db in
-            if try Player.all().isEmpty(db) {
-                try createRandomPlayers(db)
-            } else {
-                if Bool.random() {
-                    _ = try Player.makeRandom().inserted(db)
-                }
-
-                if Bool.random() {
-                    try Player.order(sql: "RANDOM()").limit(1).deleteAll(db)
-                }
-
-                for var player in try Player.fetchAll(db) where Bool.random() {
-                    try player.updateChanges(db) {
-                        $0.score = Player.randomScore()
-                    }
-                }
-            }
-        }
-    }
-
     func createRandomPlayersIfEmpty() throws {
         try dbWriter.write { db in
             if try Player.all().isEmpty(db) {

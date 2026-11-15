@@ -72,8 +72,4 @@ class PlayerListViewModel {
     func deleteAllPlayers() throws {
         try appDatabase.deleteAllPlayers()
     }
-
-    func refreshPlayers() async throws {
-        try await appDatabase.refreshPlayers()
-    }
 }

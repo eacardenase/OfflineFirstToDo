@@ -70,16 +70,6 @@ private struct ContentView: View {
                     }
 
                     Spacer()
-
-                    Button {
-                        Task {
-                            stopEditing()
-
-                            try? await viewModel.refreshPlayers()
-                        }
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                    }
                 }
             }
             .environment(\.editMode, $editMode)

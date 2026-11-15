@@ -39,8 +39,6 @@ extension AppDatabase {
 
             let appDatabase = try AppDatabase(dbPool)
 
-            try appDatabase.createRandomPlayersIfEmpty()
-
             return appDatabase
         } catch {
             fatalError(
