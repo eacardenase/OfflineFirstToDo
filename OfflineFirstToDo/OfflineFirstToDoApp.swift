@@ -9,11 +9,9 @@ import SwiftUI
 
 @main
 struct OfflineFirstToDoApp: App {
-    @State var playerListViewModel = PlayerListViewModel(appDatabase: .shared)
-
     var body: some Scene {
         WindowGroup {
-            PlayersScreen(viewModel: playerListViewModel)
+            PlayersScreen()
                 .appDatabase(.shared)
         }
     }

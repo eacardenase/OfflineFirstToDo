@@ -8,9 +8,23 @@
 import SwiftUI
 
 struct PlayersScreen: View {
-    @Bindable var viewModel: PlayerListViewModel
+    @Environment(\.appDatabase) var appDatabase
+
+    var body: some View {
+        ContentView(appDatabase: appDatabase)
+    }
+}
+
+private struct ContentView: View {
+    @State var viewModel: PlayerListViewModel
     @State var editMode = EditMode.inactive
     @State var presentCreationSheet = false
+
+    init(appDatabase: AppDatabase) {
+        _viewModel = State(
+            initialValue: PlayerListViewModel(appDatabase: appDatabase)
+        )
+    }
 
     var body: some View {
         NavigationStack {
@@ -86,9 +100,11 @@ struct PlayersScreen: View {
 }
 
 #Preview("Populated") {
-    PlayersScreen(viewModel: .init(appDatabase: .random()))
+    PlayersScreen()
+        .appDatabase(.random())
 }
 
 #Preview("Empty") {
-    PlayersScreen(viewModel: .init(appDatabase: .empty()))
+    PlayersScreen()
+        .appDatabase(.empty())
 }
