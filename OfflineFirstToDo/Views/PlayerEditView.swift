@@ -10,7 +10,15 @@ import SwiftUI
 struct PlayerEditView: View {
     @Environment(\.appDatabase) var appDatabase
     @Environment(\.dismiss) var dismiss
-    @Bindable var viewModel: PlayerViewModel
+    @State var viewModel: PlayerViewModel
+    var player: Player
+
+    init(player: Player) {
+        self.player = player
+        _viewModel = State(
+            initialValue: .init(name: player.name, score: player.score)
+        )
+    }
 
     var body: some View {
         Form {
@@ -27,7 +35,10 @@ struct PlayerEditView: View {
     }
 
     private func save() {
-        var player = Player(name: viewModel.name, score: viewModel.score ?? 0)
+        var player = player
+
+        player.name = viewModel.name
+        player.score = viewModel.score ?? 0
 
         try? appDatabase.savePlayer(&player)
 
@@ -37,6 +48,6 @@ struct PlayerEditView: View {
 
 #Preview {
     NavigationStack {
-        PlayerEditView(viewModel: .init(name: "Edwin", score: 100))
+        PlayerEditView(player: .init(name: "Edwin", score: 100))
     }
 }

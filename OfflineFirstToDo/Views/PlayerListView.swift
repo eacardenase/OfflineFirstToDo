@@ -19,7 +19,7 @@ struct PlayerListView: View {
                 )
 
                 NavigationLink {
-                    PlayerEditView(viewModel: playerViewModel)
+                    PlayerEditView(player: player)
                 } label: {
                     PlayerRowView(viewModel: playerViewModel)
                 }
